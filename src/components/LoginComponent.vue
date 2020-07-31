@@ -26,11 +26,31 @@
               <br />
               <v-btn type="submit" color="grey darken-2" :disabled="!validatorForm" large>Enter</v-btn>
             </v-form>
-            <v-btn  class='d-flex justify-center' color="transparent"  small router-link to ='/signup'>Sign Up</v-btn>
+            <v-btn router-link to="/" id="goHome" class="d-flex align-end">
+              Go
+              <img id="goHomeImg" src="../assets/goHome.png" alt="home" />
+            </v-btn>
+            <v-btn
+              class="d-flex justify-center"
+              color="transparent"
+              small
+              router-link
+              to="/signup"
+            >Sign Up</v-btn>
           </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
+    <v-dialog width="300" v-model="errorAuth">
+      <v-card width="300">
+        <v-alert type="error">
+          <v-flex column wrap class="d-flex flex-column align-center">
+            <h5>Problem on Password or User Name</h5>
+            <h4>Try Again!!</h4>
+          </v-flex>
+        </v-alert>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -41,7 +61,8 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      errorAuth: false,
     };
   },
   methods: {
@@ -50,18 +71,34 @@ export default {
     loginUser() {
       return this.$store.dispatch("loginUser", {
         userName: this.username,
-        userPassword: this.password
+        userPassword: this.password,
       });
-    }
+    },
   },
 
   computed: {
+    ...mapGetters(["getPopError"]),
     validatorForm() {
       return this.username != "" && this.password != "";
-    }
+    },
+    async showHideAlert() {
+      return (this.errorAuth = await this.$store.getters.getPopError);
+    },
   },
-  created() {},
-  watch: {}
+  updated() {
+    this.showHideAlert;
+  },
+  created() {
+    this.showHideAlert;
+    console.log(this.showHideAlert);
+    console.log(this.$store.getters.getPopError);
+  },
+  watch: {
+    getPopError(value) {
+      console.log(value);
+      return (this.errorAuth = value);
+    },
+  },
 };
 </script>
 
@@ -70,7 +107,11 @@ export default {
   padding: 20px;
   border: 1px;
   border-radius: 50px;
-  background-color:rgba(10, 10, 10, .8);
-  margin-top:4rem
+  background-color: rgba(10, 10, 10, 0.8);
+  margin-top: 4rem;
+}
+#goHome {
+  background-color: transparent;
+  color: white;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <GraphicComponent></GraphicComponent>
+    
   </v-container>
 </template>
 

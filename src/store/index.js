@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import router from "../router";
 import createPersistedState from "vuex-persistedstate";
+const url = "https://crabs-game.herokuapp.com";
 
 Vue.use(Vuex);
 
@@ -21,6 +22,8 @@ export default new Vuex.Store({
     selectedGame: {},
     scorePlayer: [],
     allShotsPlayer: [],
+    popError: false,
+    popErrorConflict: false,
   },
 
   getters: {
@@ -50,6 +53,13 @@ export default new Vuex.Store({
 
       return state.allShotsPlayer;
     },
+    getPopError(state) {
+      console.log(state.popError);
+      return state.popError;
+    },
+    getPopErrorConflict(state) {
+      return state.popErrorConflict;
+    },
   },
   mutations: {
     setAllGames(state, payload) {
@@ -74,6 +84,12 @@ export default new Vuex.Store({
       console.log(payload);
       return (state.allShotsPlayer = payload);
     },
+    setPopError(state, payload) {
+      return (state.popError = payload);
+    },
+    setPopErrorConflict(state, payload) {
+      state.popErrorConflict = payload;
+    },
   },
 
   actions: {
@@ -81,7 +97,7 @@ export default new Vuex.Store({
     //obteneidno todos los juegos existentes
     //=====================================================================================
     allGames({ commit }) {
-      return fetch("/crabs/game/all", {
+      return fetch(url + "/crabs/game/all", {
         credentials: "include",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -105,7 +121,7 @@ export default new Vuex.Store({
     //Obteniendo todos los socres y disparos por jugador en cada juego
     //===============================================================================
     scorePlayer({ commit }) {
-      return fetch("/crabs/game/scorepoll", {
+      return fetch(url + "/crabs/game/scorepoll", {
         credentials: "include",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -130,7 +146,7 @@ export default new Vuex.Store({
     //=====================================================================================
     allShots({ commit }) {
       if (this.state.allGamesData.player != null) {
-        return fetch("/crabs/game/allshots", {
+        return fetch(url + "/crabs/game/allshots", {
           credentials: "include",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -155,7 +171,7 @@ export default new Vuex.Store({
     //obteneidno un juego segun el id proveido
     //=====================================================================================
     oneGame({ commit, dispatch }, gameCrabId) {
-      return fetch("/crabs/game/" + gameCrabId, {
+      return fetch(url + "/crabs/game/" + gameCrabId, {
         credentials: "include",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -178,7 +194,7 @@ export default new Vuex.Store({
     //Proceso de crear un juego nuevo por el usuario logeado
     //=============================================================================
     async createGame({ dispatch, commit }) {
-      fetch("/crabs/game/create", {
+      fetch(url + "/crabs/game/create", {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -213,7 +229,7 @@ export default new Vuex.Store({
     throwDices({ commit, dispatch }, gameId) {
       console.log(gameId);
 
-      return fetch("/crabs/game/play/" + gameId, {
+      return fetch(url + "/crabs/game/play/" + gameId, {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -246,7 +262,7 @@ export default new Vuex.Store({
     //proceso para registrar en sign in al usuario
     //=====================================================================================
     loginUser({ commit, dispatch }, payload) {
-      fetch("/crabs/game/login", {
+      fetch(url + "/crabs/game/login", {
         credentials: "include",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -258,9 +274,19 @@ export default new Vuex.Store({
         }),
       })
         .then((userRegistered) => {
-          if (userRegistered.Error) {
+          if (
+            userRegistered.status != "200" &&
+            userRegistered.status == 401 &&
+            userRegistered.statusText == "Unauthorized"
+          ) {
             userRegistered.Error;
+            console.log(userRegistered);
+            commit("setPopError", true);
             commit("setUserRegistered", false);
+
+            setTimeout(() => {
+              commit("setPopError", false);
+            }, 2000);
 
             // if (userRegistered.status != 200) {
             //   commit("setPop", true);
@@ -269,6 +295,7 @@ export default new Vuex.Store({
             //   }, 2000);
             // }
           } else {
+            console.log(userRegistered);
             userRegistered, commit("setUserRegistered", true);
             router.push("/"), dispatch("allGames");
           }
@@ -290,8 +317,8 @@ export default new Vuex.Store({
     //=====================================================================================
     //proceso para el sign up del usuario
     //=====================================================================================
-    signUpUser({ commit, dispatch }, payload) {
-      fetch("/crabs/game/register", {
+    async signUpUser({ commit, dispatch }, payload) {
+      fetch(url + "/crabs/game/register", {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -300,24 +327,34 @@ export default new Vuex.Store({
         body: JSON.stringify(payload),
       })
         .then((user) => {
-          console.log("data sent :", JSON.stringify(user));
-          console.log(payload);
-          return user.json();
+          if (user.status == "409") {
+            commit("setPopError", true);
+            commit("setUserRegistered", false);
+
+            setTimeout(() => {
+              commit("setPopError", false);
+            }, 2000);
+          } else {
+            console.log("data sent :", user, JSON.stringify(user));
+            console.log(payload);
+            return user.json();
+          }
         })
         .then((user) => {
-          if (user.Error) {
-            console.log("error", user);
-            user.Error;
+          user;
+          if (user.status == "409") {
+            commit("setPopError", true);
             commit("setUserRegistered", false);
+
+            setTimeout(() => {
+              commit("setPopError", false);
+            }, 2000);
           } else {
-            // console.log("Success", user);
-            user;
             dispatch("loginUser", payload);
             commit("setUserRegistered", true);
           }
         })
         .catch((error) => {
-          // console.log("Error on SignUp", error);
           error;
         });
     },
@@ -325,7 +362,7 @@ export default new Vuex.Store({
     //proceso para retirar el usuario de login
     //=====================================================================================
     logOutUser({ commit, dispatch }) {
-      fetch("/crabs/game/logout", {
+      fetch(url + "/crabs/game/logout", {
         credentials: "include",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -343,5 +380,9 @@ export default new Vuex.Store({
           error;
         });
     },
+
+    //====================================================================================
+    //Eror login in or signUp handler
+    //===================================================================================
   },
 });

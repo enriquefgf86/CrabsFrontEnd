@@ -11,7 +11,7 @@
           <img id="newGameImage" src="../assets/newGame.png" alt="newgame" />
         </v-btn>
 
-        <v-btn id="leaderBoard" router-link to="/scorePoll">
+        <v-btn id="leaderBoard" @click="routerScore">
           Score
           <img id="leaderBoardImage" src="../assets/leaderBoard.png" alt="leaderboard" />
         </v-btn>
@@ -63,7 +63,7 @@ export default {
 
   components: {},
   methods: {
-    ...mapActions(["allGames", "logOutUser", "createGame"]),
+    ...mapActions(["allGames", "logOutUser", "createGame", "scorePlayer"]),
 
     logOut() {
       return this.$store.dispatch("logOutUser");
@@ -71,18 +71,22 @@ export default {
     createNewGame() {
       return this.$store.dispatch("createGame");
     },
-    gotToScore() {
-      return this.$router.push("/scorePoll");
-    }
+    async routerScore() {
+      return (
+        await this.$store.dispatch("allGames"),
+        await this.$store.dispatch("scorePlayer"),
+        await this.$router.push("/scorePoll")
+      );
+    },
   },
   computed: {
-    ...mapGetters(["getAllGames"])
+    ...mapGetters(["getAllGames"]),
   },
   created() {
     // this.getAllGames;
     // // console.log(this.getAllGames);
   },
-  watch: {}
+  watch: {},
 };
 </script>
 <style>

@@ -4,10 +4,10 @@
 
     <v-layout wrap row>
       <v-flex column md8>
-        <h4 id="welcomePlayer">Welcome :{{gameSelected.game_player}}</h4>
+        <h4 id="welcomePlayer">Record Of : {{gameSelected.game_player}}</h4>
       </v-flex>
       <v-flex column md4 class="d-flex justify-end">
-        <v-btn id="logOut" @click="logOut">
+        <v-btn id="logOut" @click="logOut" v-if="getAllGames.player!=null">
           Log Out
           <img id="logOutImage" src="../assets/logOut.png" alt="out" />
         </v-btn>
@@ -26,7 +26,7 @@
       <v-flex column wrap md4>
         <v-card dark id="statisticsCard" elevation-24>
           <v-card-text>
-            <h4 class="display-1 font-weight-bold"  style="text-align:center !important">
+            <h4 class="display-1 font-weight-bold" style="text-align:center !important">
               <img id="crabicon" src="../assets/crabIcon.png" alt="crab" /> This Game Details
             </h4>
             <hr />
@@ -56,12 +56,12 @@
 
           <!-- Columnas Listado de disparos -->
           <v-layout row wrap>
-            <v-flex column wrap sm3 class="d-flex justify-center">Total</v-flex>
+            <v-flex column wrap sm5 class="d-flex align-center justify-center">Total in Shot</v-flex>
             <v-flex
               column
               wrap
-              sm7
-              class="d-flex justify-center"
+              sm5
+              class="d-flex align-center justify-center"
               style="margin-left:20px"
             >Times Shot</v-flex>
           </v-layout>
@@ -73,12 +73,12 @@
               :key="index"
               class="d-flex align-center justify-center"
             >
-              <v-flex column wrap lg3>
-                <v-card-text>{{index}}</v-card-text>
+              <v-flex column wrap sm5>
+                <v-card-text class="d-flex align-center justify-center">{{index}}</v-card-text>
               </v-flex>
 
-              <v-flex column wrap lg9 style="margin-left:40px">
-                <v-flex row wrap>{{shots}}</v-flex>
+              <v-flex column wrap sm5 style="margin-left:40px">
+                <v-flex class="d-flex align-center justify-center" row wrap>{{shots}}</v-flex>
                 <v-divider></v-divider>
               </v-flex>
             </v-layout>
@@ -119,13 +119,30 @@
 
           <!-- Columnas Listado de disparos -->
           <v-layout row wrap>
-            <v-flex column wrap sm3 class="d-flex justify-center text-xs-center;text-align:center !important">
+            <v-flex
+              column
+              wrap
+              sm3
+              class="d-flex justify-center text-xs-center;text-align:center !important"
+            >
               <h5>Game</h5>
             </v-flex>
-            <v-flex column wrap sm3 class="d-flex justify-center text-xs-center" style="margin-left:20px;text-align:center !important">
+            <v-flex
+              column
+              wrap
+              sm3
+              class="d-flex justify-center text-xs-center"
+              style="margin-left:20px;text-align:center !important"
+            >
               <h5>Total Each Shot</h5>
             </v-flex>
-            <v-flex column wrap sm3 class="d-flex justify-center text-xs-center" style="margin-left:20px;text-align:center !important">
+            <v-flex
+              column
+              wrap
+              sm3
+              class="d-flex justify-center text-xs-center"
+              style="margin-left:20px;text-align:center !important"
+            >
               <h5>Game Score</h5>
             </v-flex>
           </v-layout>
@@ -146,15 +163,18 @@
               </v-flex>
 
               <v-flex column>
-                <h6>{{details.game_shot.length}} {{details.game_shot.length>1?"shots":"shot"}}</h6>
-                <v-flex column wrap lg3 id="scoreLog">
+                <h6
+                  style="margin-left:.6rem"
+                >{{details.game_shot.length}} {{details.game_shot.length>1?"shots":"shot"}}</h6>
+                <v-flex column wrap sm8 id="scoreLog">
                   <v-flex
                     column
                     wrap
-                    lg3
+                    sm6
                     v-for="(shots ,index1) in details.game_shot"
                     :key="index1"
-                    class="d-flex align-center justify-center"
+                    class="d-flex align-center justify-end"
+                    style="margin-left:1.5rem"
                   >
                     <v-card-text>{{shots.shot}}</v-card-text>
                   </v-flex>
@@ -177,85 +197,36 @@
       </v-flex>
 
       <v-divider></v-divider>
-      <v-flex column wrap md4>
-        <v-card dark id="statisticsCard" elevation-24>
-          <v-card-text>
-            <h4 class="display-1 font-weight-bold"  style="text-align:center !important">
-              <img id="crabicon" src="../assets/crabIcon.png" alt="crab" /> This Game Details
-            </h4>
-            <hr />
-            <br />
-          </v-card-text>
-
-          <!-- Estado del Juego -->
-          <v-layout>
-            <v-flex row wrap class="d-flex justify-center"></v-flex>
-          </v-layout>
-
-          <v-divider></v-divider>
-
-          <!-- Division de Listado de disparos -->
-          <v-layout>
-            <v-flex row wrap class="d-flex justify-center">
-              <h3>Shots Log</h3>
-            </v-flex>
-          </v-layout>
-
-          <v-divider></v-divider>
-          <br />
-
-          <!-- Columnas Listado de disparos -->
-          <v-layout row wrap>
-            <v-flex column wrap sm3 class="d-flex justify-center">Total</v-flex>
-            <v-flex column wrap sm7 class="d-flex justify-center" style="margin-left:20px">Each Dice</v-flex>
-          </v-layout>
-
-          <!--Contenedor  Columnas Listado de disparos -->
-          <v-container ref="scroll" id="scrollAreaDice">
-            <v-layout
-              v-for="(shots ,index) in gameSelected.game_shot"
-              :key="index"
-              class="d-flex align-center justify-center"
-            >
-              <v-flex column wrap lg3>
-                <v-card-text>{{shots.shot}}</v-card-text>
-              </v-flex>
-
-              <v-flex column wrap lg9 style="margin-left:40px">
-                <v-flex row wrap></v-flex>
-                <v-divider></v-divider>
-              </v-flex>
-            </v-layout>
-            <v-layout></v-layout>
-          </v-container>
-          <v-layout row wrap>
-            <v-divider></v-divider>
-            <br />
-            <v-flex row wrap md12 class="d-flex justify-center">Shots Statistics</v-flex>
-            <v-divider></v-divider>
-            <v-divider></v-divider>
-            <v-container>
-              <v-content>
-                <!-- Columnas Listado de disparos -->
-                <v-layout row wrap>
-                  <v-flex column wrap sm3 class="d-flex justify-end">Result</v-flex>
-                  <v-flex column wrap sm7 class="d-flex justify-end">Times Thrown</v-flex>
-                </v-layout>
-              </v-content>
-            </v-container>
-          </v-layout>
-
-          <v-divider></v-divider>
-        </v-card>
-      </v-flex>
     </v-layout>
 
-    <!-- </v-card> -->
+    <v-container>
+      <v-content>
+        <v-card id="cardColor" dark v-if="getAllGames.player==null||getAllGames.player==undefined">
+          <v-layout row wrap>
+            <v-flex column xs12 class="d-flex justify-center">
+              <h2 id="letter">Hola Visitor,are you a user?</h2>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex column xs12 class="d-flex flex-row justify-space-around justify-start">
+              <h2 id="letter">
+                <v-btn small router-link to="/login" style="background-color:transparent">Yes</v-btn>
+              </h2>
+              <h2 id="letter">
+                <v-btn small router-link to="/signup" style="background-color:transparent">No</v-btn>
+              </h2>
+            </v-flex>
+          </v-layout>
+        </v-card>
+      </v-content>
+    </v-container>
   </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+// import { Doughnut } from "vue-chartjs";
+// import Chart from "chart.js";
 
 export default {
   name: "GraphicComponent",
@@ -266,6 +237,7 @@ export default {
       playerGamesResume: [],
     };
   },
+
   methods: {
     ...mapActions([
       "allGames",
@@ -276,7 +248,9 @@ export default {
     ]),
 
     logOut() {
-      return this.$store.dispatch("logOutUser");
+      if (this.getAllGames.player != null) {
+        return this.$store.dispatch("logOutUser");
+      } else return;
     },
   },
   computed: {

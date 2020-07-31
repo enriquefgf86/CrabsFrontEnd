@@ -35,6 +35,6 @@ new Vue({
   // },
   render: (h) => h(App),
   created() {
-    store.dispatch("allScoreShotsPerPlayer");
+    store.dispatch("scorePlayer");
   },
 }).$mount("#app");
