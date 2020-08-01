@@ -91,9 +91,6 @@ export default {
     allGamesJson() {
       return this.$store.dispatch("allGames");
     },
-    onButtonClick(item) {
-      console.log("click on " + item.no);
-    },
   },
   computed: {
     ...mapGetters(["getAllGames"]),
@@ -115,7 +112,7 @@ export default {
           var gamesStatus = element.game_status;
           var statusFinal = gamesStatus[gamesStatus.length - 1];
           this.lastGameStatus.push(statusFinal.status);
-          console.log(statusFinal);
+          // console.log(statusFinal);
         });
         this.currentPlayer = player.player_name;
       }
@@ -151,12 +148,12 @@ export default {
     await this.allGames();
     await this.getAllGames;
     await this.allGamesJson;
-
-    await console.log(this.getAllGames);
-    await this.getLastGameStatus;
-    await console.log(this.getLastGameStatus);
-    await console.log(this.lastGameStatus);
-    await console.log(this.currentPlayer);
+await this.getLastGameStatus;
+    // await console.log(this.getAllGames);
+    
+    // await console.log(this.getLastGameStatus);
+    // await console.log(this.lastGameStatus);
+    // await console.log(this.currentPlayer);
   },
   watch: {},
 };

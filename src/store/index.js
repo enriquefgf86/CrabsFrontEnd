@@ -41,7 +41,7 @@ export default new Vuex.Store({
     },
 
     getScorePlayer(state) {
-      console.log(state.scorePlayer);
+      // console.log(state.scorePlayer);
 
       return state.scorePlayer;
     },
@@ -49,12 +49,12 @@ export default new Vuex.Store({
       return state.userRegisteredState.status;
     },
     getallShotsPlayer(state) {
-      console.log(state.allShotsPlayer);
+      // console.log(state.allShotsPlayer);
 
       return state.allShotsPlayer;
     },
     getPopError(state) {
-      console.log(state.popError);
+      // console.log(state.popError);
       return state.popError;
     },
     getPopErrorConflict(state) {
@@ -81,7 +81,7 @@ export default new Vuex.Store({
       return (state.scorePlayer = payload);
     },
     setAllShots(state, payload) {
-      console.log(payload);
+      // console.log(payload);
       return (state.allShotsPlayer = payload);
     },
     setPopError(state, payload) {
@@ -99,9 +99,10 @@ export default new Vuex.Store({
     allGames({ commit }) {
       return fetch(url + "/crabs/game/all", {
         credentials: "include",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        // headers: {
+        //   "Content-Type": "application/x-www-form-urlencoded",
+          
+        // },
         method: "GET",
       })
         .then((response) => {
@@ -109,11 +110,11 @@ export default new Vuex.Store({
           return response.json();
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           return response, commit("setAllGames", response);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((error) => {error
+          // console.log(error);
         });
     },
 
@@ -123,9 +124,9 @@ export default new Vuex.Store({
     scorePlayer({ commit }) {
       return fetch(url + "/crabs/game/scorepoll", {
         credentials: "include",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        // headers: {
+        //   "Content-Type": "application/x-www-form-urlencoded",
+        // },
         method: "GET",
       })
         .then((response) => {
@@ -133,11 +134,11 @@ export default new Vuex.Store({
           return response.json();
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           return response, commit("setScorePlayer", response);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((error) => {error
+          // console.log(error);
         });
     },
 
@@ -148,21 +149,22 @@ export default new Vuex.Store({
       if (this.state.allGamesData.player != null) {
         return fetch(url + "/crabs/game/allshots", {
           credentials: "include",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
+          // headers: {
+          //   "Content-Type": "application/x-www-form-urlencoded",
+          // },
           method: "GET",
         })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             return response.json();
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             return response, commit("setAllShots", response);
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
+            error
           });
       }
     },
@@ -183,11 +185,12 @@ export default new Vuex.Store({
           return response.json();
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           return response, commit("setOneGame", response), dispatch("allShots");
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
+          error
         });
     },
     //=============================================================================
@@ -203,23 +206,24 @@ export default new Vuex.Store({
         // body: JSON.stringify(payload)
       })
         .then((newData) => {
-          console.log("data sent :", JSON.stringify(newData));
+          // console.log("data sent :", JSON.stringify(newData));
           return newData.json();
         })
         .then(async (data) => {
           if (data.Error) {
             return console.log("Creating Game Failed!!", data);
           } else {
-            console.log("Succesfull", data);
+            // console.log("Succesfull", data);
             await dispatch("allGames");
 
-            console.log(data, Object.values(data)[0]);
+            // console.log(data, Object.values(data)[0]);
 
             router.push(`/game/selected/${Object.values(data)[0]}`);
           }
         })
         .catch(function(error) {
-          console.log("Request failure: ", error);
+          // console.log("Request failure: ", error);
+          error
         });
     },
 
@@ -227,7 +231,7 @@ export default new Vuex.Store({
     //Disparando un nuevo tiro de dados
     //================================================================================
     throwDices({ commit, dispatch }, gameId) {
-      console.log(gameId);
+      // console.log(gameId);
 
       return fetch(url + "/crabs/game/play/" + gameId, {
         credentials: "include",
@@ -238,24 +242,24 @@ export default new Vuex.Store({
         // method: "PUT"
       })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
 
           return response.json();
         })
         .then((response) => {
           if (response.Error) {
-            console.log("Error en disparo", response.Error);
+            // console.log("Error en disparo", response.Error);
 
             return response.Error;
           } else {
             dispatch("allGames");
             dispatch("allShots");
-            console.log(response);
+            // console.log(response);
           }
         })
         .catch((error) => {
           error;
-          console.log(error);
+          // console.log(error);
         });
     },
     //=====================================================================================
@@ -280,7 +284,7 @@ export default new Vuex.Store({
             userRegistered.statusText == "Unauthorized"
           ) {
             userRegistered.Error;
-            console.log(userRegistered);
+            // console.log(userRegistered);
             commit("setPopError", true);
             commit("setUserRegistered", false);
 
@@ -288,20 +292,14 @@ export default new Vuex.Store({
               commit("setPopError", false);
             }, 2000);
 
-            // if (userRegistered.status != 200) {
-            //   commit("setPop", true);
-            //   setTimeout(() => {
-            //     commit("setPop", false);
-            //   }, 2000);
-            // }
           } else {
-            console.log(userRegistered);
+            // console.log(userRegistered);
             userRegistered, commit("setUserRegistered", true);
             router.push("/"), dispatch("allGames");
           }
         })
         .catch((error) => {
-          console.log("error", error);
+          // console.log("error", error);
           error;
         });
       function getBody(json) {
@@ -320,9 +318,9 @@ export default new Vuex.Store({
     async signUpUser({ commit, dispatch }, payload) {
       fetch(url + "/crabs/game/register", {
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
         method: "POST",
         body: JSON.stringify(payload),
       })
@@ -335,8 +333,8 @@ export default new Vuex.Store({
               commit("setPopError", false);
             }, 2000);
           } else {
-            console.log("data sent :", user, JSON.stringify(user));
-            console.log(payload);
+            // console.log("data sent :", user, JSON.stringify(user));
+            // console.log(payload);
             return user.json();
           }
         })
@@ -376,7 +374,7 @@ export default new Vuex.Store({
           dispatch("allGames");
         })
         .catch((error) => {
-          console.log("Error on Log Out: ", error);
+          // console.log("Error on Log Out: ", error);
           error;
         });
     },

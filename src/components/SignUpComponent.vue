@@ -117,7 +117,7 @@ export default {
   },
   watch: {
     getPopError(value) {
-      console.log(value);
+      // console.log(value);
       return (this.errorAuthConflict = value);
     },
   },

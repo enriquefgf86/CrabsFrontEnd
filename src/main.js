@@ -34,7 +34,7 @@ new Vue({
   //   Chart,
   // },
   render: (h) => h(App),
-  created() {
-    store.dispatch("scorePlayer");
-  },
+  // created() {
+  //   store.dispatch("scorePlayer");
+  // },
 }).$mount("#app");

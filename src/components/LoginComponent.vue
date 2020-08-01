@@ -90,12 +90,12 @@ export default {
   },
   created() {
     this.showHideAlert;
-    console.log(this.showHideAlert);
-    console.log(this.$store.getters.getPopError);
+    // console.log(this.showHideAlert);
+    // console.log(this.$store.getters.getPopError);
   },
   watch: {
     getPopError(value) {
-      console.log(value);
+      // console.log(value);
       return (this.errorAuth = value);
     },
   },

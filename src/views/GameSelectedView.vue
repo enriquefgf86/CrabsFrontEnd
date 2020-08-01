@@ -448,7 +448,7 @@ export default {
       let shots = await this.getallShotsPlayer;
       let arrayShots = await [];
       let countDice = {};
-      console.log(shots.player_auth_shots_detail);
+      // console.log(shots.player_auth_shots_detail);
       if (shots.player_auth_shots_detail != undefined) {
         await shots.player_auth_shots_detail.forEach((shot) => {
           arrayShots.push(shot.shot);
@@ -480,8 +480,8 @@ export default {
     await this.objectRepeatedShots;
     await this.tipsRandomPopUp;
     this.removerTips;
-    console.log(this.lastStatus);
-    console.log(this.gameSelected);
+    // console.log(this.lastStatus);
+    // console.log(this.gameSelected);
   },
   mounted() {
     this.scrollToEnd();
@@ -527,8 +527,8 @@ export default {
 
       this.getLastShot;
 
-      console.log(refDice1);
-      console.log(refDice2);
+      // console.log(refDice1);
+      // console.log(refDice2);
 
       refDice1.classList.toggle("dic1"),
         refDice2.classList.toggle("dic2"),

@@ -298,11 +298,11 @@ export default {
   async created() {
     await this.getGameStatistics;
     await this.getAllGamesPlayerStatistic;
-    console.log(this.getGameStatistics);
-    console.log(this.gameSelected);
-    console.log(this.shotsInGame);
-    console.log(this.getAllGamesPlayerStatistic);
-    console.log(this.playerGamesResume);
+    // console.log(this.getGameStatistics);
+    // console.log(this.gameSelected);
+    // console.log(this.shotsInGame);
+    // console.log(this.getAllGamesPlayerStatistic);
+    // console.log(this.playerGamesResume);
   },
   watch: {},
 };

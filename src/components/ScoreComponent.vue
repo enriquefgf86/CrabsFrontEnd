@@ -50,8 +50,8 @@ export default {
     },
     tableScore() {
       let conforming = this.$store.getters.getScorePlayer.player_details_all;
-      console.log(conforming);
-      console.log(this.$store.getters.getScorePlayer.player_details_all);
+      // console.log(conforming);
+      // console.log(this.$store.getters.getScorePlayer.player_details_all);
       // let arrayOfScores = [];
 
       conforming.forEach(element => {
@@ -108,8 +108,8 @@ export default {
         });
 
         this.arrayOfScores.push(playerObject);
-        console.log(playerObject);
-        console.log(this.arrayOfScores);
+        // console.log(playerObject);
+        // console.log(this.arrayOfScores);
       });
       return (
         this.arrayOfScores.sort((a, b) => {
@@ -120,8 +120,8 @@ export default {
           } else if (a.score == b.score) {
             return a.wins + a.lost + a.keeps < b.wins + b.lost + b.keeps;
           }
-        }),
-        console.log(this.arrayOfScores)
+        })
+        // console.log(this.arrayOfScores)
       );
     },
     headers() {
@@ -133,10 +133,10 @@ export default {
     this.allGames;
     this.getShotScoreGames;
     this.tableScore;
-    console.log(this.getGames());
-    console.log(this.getShotScoreGames);
-    console.log(this.state);
-    console.log(this.tableScore);
+    // console.log(this.getGames());
+    // console.log(this.getShotScoreGames);
+    // console.log(this.state);
+    // console.log(this.tableScore);
   },
   
   watch: {}

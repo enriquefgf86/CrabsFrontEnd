@@ -28,7 +28,7 @@ export default {
   },
   async created() {
       await this.gameSelected;
-      await console.log(this.gameSelected);
+      // await console.log(this.gameSelected);
 
   },
   watch: {}
