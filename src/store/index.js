@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import router from "../router";
 import createPersistedState from "vuex-persistedstate";
-const url = "https://crabs-game.herokuapp.com";
+const url = "https://whispering-cove-52639.herokuapp.com";
 
 Vue.use(Vuex);
 
@@ -99,10 +99,10 @@ export default new Vuex.Store({
     allGames({ commit }) {
       return fetch(url + "/crabs/game/all", {
         credentials: "include",
-        // headers: {
-        //   "Content-Type": "application/x-www-form-urlencoded",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
           
-        // },
+        },
         method: "GET",
       })
         .then((response) => {
@@ -124,9 +124,9 @@ export default new Vuex.Store({
     scorePlayer({ commit }) {
       return fetch(url + "/crabs/game/scorepoll", {
         credentials: "include",
-        // headers: {
-        //   "Content-Type": "application/x-www-form-urlencoded",
-        // },
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
         method: "GET",
       })
         .then((response) => {
@@ -149,9 +149,9 @@ export default new Vuex.Store({
       if (this.state.allGamesData.player != null) {
         return fetch(url + "/crabs/game/allshots", {
           credentials: "include",
-          // headers: {
-          //   "Content-Type": "application/x-www-form-urlencoded",
-          // },
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
           method: "GET",
         })
           .then((response) => {
@@ -318,9 +318,9 @@ export default new Vuex.Store({
     async signUpUser({ commit, dispatch }, payload) {
       fetch(url + "/crabs/game/register", {
         credentials: "include",
-        // headers: {
-        //   "Content-Type": "application/json",
-        // },
+        headers: {
+          "Content-Type": "application/json",
+        },
         method: "POST",
         body: JSON.stringify(payload),
       })
