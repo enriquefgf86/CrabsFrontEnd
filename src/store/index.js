@@ -1,17 +1,17 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import router from "../router";
-// import createPersistedState from "vuex-persistedstate";
+import createPersistedState from "vuex-persistedstate";
 const url = "https://whispering-cove-52639.herokuapp.com";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  // plugins: [
-  //   createPersistedState({
-  //     paths: ["allGamesData", "scorePlayer", "userRegisteredState"],
-  //   }),
-  // ],
+  plugins: [
+    createPersistedState({
+      paths: ["allGamesData", "scorePlayer", "userRegisteredState"],
+    }),
+  ],
   state: {
     userRegisteredState: {
       status: false,
