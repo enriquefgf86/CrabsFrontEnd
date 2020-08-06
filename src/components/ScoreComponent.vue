@@ -3,14 +3,39 @@
     <v-content v-if="getShotScoreGames">
       <div v-if=" getShotScoreGames"></div>
       <v-card id="cardScore">
-        <v-card-title class="d-flex justify-space-between"><h4>Score Poll</h4><img @click="routering" router-link to="/" id="backImg" src="../assets/goBack.png" alt="back"/></v-card-title>
+        <v-card-title class="d-flex justify-space-between">
+          <h4>Score Poll</h4>
+          <img
+            @click="routering"
+            router-link
+            to="/"
+            id="backImg"
+            src="../assets/goBack.png"
+            alt="back"
+          />
+        </v-card-title>
         <v-container>
-          <v-data-table id="cardScoreTable"  :headers="headers" :items="arrayOfScores">
+          <v-data-table id="cardScoreTable" :headers="headers" :items="arrayOfScores">
             <template v-slot:item="row">
               <tr>
                 <td>{{row.item.player}}</td>
                 <td>{{row.item.games_played}}</td>
-                <td>{{row.item.score}}</td>
+                <td>
+                  {{row.item.score}}
+                  <!-- <img v-if="imgStatus++==3" src="../assets/keepsOn.gif" width="30px" heigth="30px" />
+                        <img v-if="imgStatus++==1" src="../assets/emoji.gif" width="30px" heigth="30px" />
+                        <img v-if="imgStatus++==2" src="../assets/emoji.gif" width="30px" heigth="30px" />
+                        <img
+                          v-else-if="imgStatus++>=4"
+                          src="../assets/looserEmoji.gif"
+                          width="30px"
+                          heigth="30px"
+                  />-->
+                </td>
+                <td>
+                  <img v-show=" counter>3" :src="imgStatus[3]" alt="img" width="40px" heigth="40px" />
+                  <img v-show="counter<=3" :src="imgStatus[counter++]" alt="img" width="40px" heigth="40px" />
+                </td>
               </tr>
             </template>
           </v-data-table>
@@ -28,7 +53,14 @@ export default {
   data() {
     return {
       state: this.$store.state,
-      arrayOfScores: []
+      arrayOfScores: [],
+      counter: 0,
+      imgStatus: [
+        require("../assets/emoji.gif"),
+        require("../assets/silverEmoji.gif"),
+        require("../assets/bronzeEmoji.gif"),
+        require("../assets/looserEmoji.gif"),
+      ],
     };
   },
   methods: {
@@ -36,14 +68,12 @@ export default {
     getGames() {
       return this.$store.dispatch("scorePlayer");
     },
-    routering(){
-      return this.$router.push('/')
+    routering() {
+      return this.$router.push("/");
     },
   },
   computed: {
     ...mapGetters(["getAllGames", "getScorePlayer"]),
-
-    
 
     getShotScoreGames() {
       return this.$store.getters.getScorePlayer;
@@ -54,7 +84,7 @@ export default {
       // console.log(this.$store.getters.getScorePlayer.player_details_all);
       // let arrayOfScores = [];
 
-      conforming.forEach(element => {
+      conforming.forEach((element) => {
         let playerObject = {
           player: element.player_name,
           wins: 0,
@@ -63,11 +93,11 @@ export default {
           keeps: 0,
           games_played: 0,
           shots: {
-            turn_and_shots: []
-          }
+            turn_and_shots: [],
+          },
         };
 
-        element.details_score_game.forEach(score => {
+        element.details_score_game.forEach((score) => {
           switch (score.game_score) {
             case -1.0:
               playerObject.lost += 1;
@@ -89,7 +119,7 @@ export default {
               break;
           }
           let counter = 0;
-          score.shots_in_game.forEach(shot => {
+          score.shots_in_game.forEach((shot) => {
             counter++;
             playerObject.shots.turn_and_shots.push(
               new Object({
@@ -99,9 +129,9 @@ export default {
 
                   details: {
                     shot_dice1: shot.shot_dice_1,
-                    shot_dice2: shot.shot_dice_2
-                  }
-                }
+                    shot_dice2: shot.shot_dice_2,
+                  },
+                },
               })
             );
           });
@@ -111,22 +141,25 @@ export default {
         // console.log(playerObject);
         // console.log(this.arrayOfScores);
       });
-      return (
-        this.arrayOfScores.sort((a, b) => {
-          if (a.score < b.score) {
-            return 1;
-          } else if (a.score > b.score) {
-            return -1;
-          } else if (a.score == b.score) {
-            return a.wins + a.lost + a.keeps < b.wins + b.lost + b.keeps;
-          }
-        })
-        // console.log(this.arrayOfScores)
-      );
+      return this.arrayOfScores.sort((a, b) => {
+        if (a.score < b.score) {
+          return 1;
+        } else if (a.score > b.score) {
+          return -1;
+        } else if (a.score == b.score) {
+          return a.wins + a.lost + a.keeps < b.wins + b.lost + b.keeps;
+        }
+      });
+      // console.log(this.arrayOfScores)
     },
     headers() {
-      return [{ text: "Player" }, { text: "Games" }, { text: "Score" }];
-    }
+      return [
+        { text: "Player" },
+        { text: "Games" },
+        { text: "Score" },
+        { text: "algo" },
+      ];
+    },
   },
   created() {
     this.getGames();
@@ -138,29 +171,29 @@ export default {
     // console.log(this.state);
     // console.log(this.tableScore);
   },
-  
-  watch: {}
+
+  watch: {},
 };
 </script>
 
 <style>
 #cardScore {
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255, 255, 255, 0.2);
   background-repeat: no-repeat;
   background-size: cover;
   font-size: 20px;
-  color:white
+  color: white;
 }
 
 #cardScoreTable {
-  background-color: rgba(255,255,255,0.3);
+  background-color: rgba(255, 255, 255, 0.3);
   background-repeat: no-repeat;
   background-size: cover;
   font-size: 20px;
   font-weight: bold;
 }
-#backImg{
-  width:30px;
-  height:30px
+#backImg {
+  width: 30px;
+  height: 30px;
 }
 </style>

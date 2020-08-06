@@ -83,8 +83,8 @@ export default {
     ...mapGetters(["getAllGames"]),
   },
   created() {
-    // this.getAllGames;
-    // // console.log(this.getAllGames);
+    this.getAllGames;
+    // console.log(this.getAllGames);
   },
   watch: {},
 };

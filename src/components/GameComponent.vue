@@ -4,7 +4,7 @@
       <v-spacer></v-spacer>
       <v-card id="cardColor" dark>
         <v-card-title>
-          List of Games
+          <img id="gamesList" src="../assets/gamesList.png" alt="games">
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
@@ -32,7 +32,7 @@
             <td>{{row.item.game_player}}</td>
 
             <td class="d-flex flex-row align-center">
-              <img
+              <!-- <img
                 id="winners"
                 v-if="row.item.game_status[row.item.game_status.length-1].status=='Wins'"
                 src="../assets/emoji.gif"
@@ -49,8 +49,29 @@
                 v-if="row.item.game_status[row.item.game_status.length-1].status=='Keeps'"
                 src="../assets/keepsOn.gif"
                 alt="keeps"
+              /> -->
+
+              <!-- <h4>{{row.item.game_status[row.item.game_status.length-1].status}}</h4> -->
+              <img
+
+                id="Looser"
+                v-if="row.item.game_status[row.item.game_status.length-1].status=='Looses'"
+                src="../assets/looser.gif"
+                alt="Looser"
               />
-              <h4>{{row.item.game_status[row.item.game_status.length-1].status}}</h4>
+              <img
+                id="winner"
+                v-if="row.item.game_status[row.item.game_status.length-1].status=='Wins'"
+                src="../assets/winner.gif"
+                alt="winner"
+              />
+              <img
+                id="Keeps"
+                v-if="row.item.game_status[row.item.game_status.length-1].status=='Keeps'"
+                src="../assets/keeps.gif"
+                alt="keeps"
+              />
+
             </td>
 
             <td>
@@ -117,6 +138,7 @@ export default {
         this.currentPlayer = player.player_name;
       }
     },
+    
     headers() {
       if (this.getAllGames.all_games) {
         return [
@@ -194,6 +216,10 @@ await this.getLastGameStatus;
   width: 50px;
   height: 45px;
 }
+#winner{
+  width: 50px;
+  height: 45px;
+}
 #looser {
   width: 50px;
   height: 50px;
@@ -201,5 +227,14 @@ await this.getLastGameStatus;
 #keeps {
   width: 40px;
   height: 40px;
+}
+#Looser,#Keeps{
+   width: 50px;
+  height: 35px;
+}
+#gamesList{
+  position: relative;
+  width:100px;
+  height:40px
 }
 </style>

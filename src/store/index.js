@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import router from "../router";
 import createPersistedState from "vuex-persistedstate";
-const url = "https://whispering-cove-52639.herokuapp.com";
+const url = "https://nameless-cove-64564.herokuapp.com";
 
 Vue.use(Vuex);
 
@@ -101,7 +101,6 @@ export default new Vuex.Store({
         credentials: "include",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          
         },
         method: "GET",
       })
@@ -113,7 +112,8 @@ export default new Vuex.Store({
           // console.log(response);
           return response, commit("setAllGames", response);
         })
-        .catch((error) => {error
+        .catch((error) => {
+          error;
           // console.log(error);
         });
     },
@@ -137,7 +137,8 @@ export default new Vuex.Store({
           // console.log(response);
           return response, commit("setScorePlayer", response);
         })
-        .catch((error) => {error
+        .catch((error) => {
+          error;
           // console.log(error);
         });
     },
@@ -164,7 +165,7 @@ export default new Vuex.Store({
           })
           .catch((error) => {
             // console.log(error);
-            error
+            error;
           });
       }
     },
@@ -190,7 +191,7 @@ export default new Vuex.Store({
         })
         .catch((error) => {
           // console.log(error);
-          error
+          error;
         });
     },
     //=============================================================================
@@ -206,24 +207,25 @@ export default new Vuex.Store({
         // body: JSON.stringify(payload)
       })
         .then((newData) => {
-          // console.log("data sent :", JSON.stringify(newData));
+          console.log("data sent :", JSON.stringify(newData));
           return newData.json();
         })
         .then(async (data) => {
           if (data.Error) {
             return console.log("Creating Game Failed!!", data);
           } else {
-            // console.log("Succesfull", data);
+            console.log("Succesfull", data);
+
             await dispatch("allGames");
 
-            // console.log(data, Object.values(data)[0]);
+            console.log(data, Object.values(data)[0], data.idCreated);
 
-            router.push(`/game/selected/${Object.values(data)[0]}`);
+            await router.push(`/game/selected/${data.idCreated}`);
           }
         })
         .catch(function(error) {
           // console.log("Request failure: ", error);
-          error
+          error;
         });
     },
 
@@ -291,7 +293,6 @@ export default new Vuex.Store({
             setTimeout(() => {
               commit("setPopError", false);
             }, 2000);
-
           } else {
             // console.log(userRegistered);
             userRegistered, commit("setUserRegistered", true);

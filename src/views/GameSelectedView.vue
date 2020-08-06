@@ -480,8 +480,8 @@ export default {
     await this.objectRepeatedShots;
     await this.tipsRandomPopUp;
     this.removerTips;
-    // console.log(this.lastStatus);
-    // console.log(this.gameSelected);
+    console.log(this.lastStatus);
+    console.log(this.gameSelected);
   },
   mounted() {
     this.scrollToEnd();
