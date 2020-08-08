@@ -1,23 +1,17 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import router from "../router";
-import VuexPersist from 'vuex-persist'
-// import createPersistedState from "vuex-persistedstate";
+import createPersistedState from "vuex-persistedstate";
 const url = "https://nameless-cove-64564.herokuapp.com";
-const vuexPersist = new VuexPersist({
-  key: 'my-app',
-  storage: window.localStorage
-})
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  // plugins: [
-  //   createPersistedState({
-  //     paths: ["allGamesData", "scorePlayer", "userRegisteredState","selectedGame","allShotsPlayer","user"],
-  //   }),
-  // ],
-  plugins: [vuexPersist.plugin],
+  plugins: [
+    createPersistedState({
+      paths: ["allGamesData", "scorePlayer", "userRegisteredState","selectedGame","allShotsPlayer","user"],
+    }),
+  ],
   state: {
     userRegisteredState: {
       status: false,
