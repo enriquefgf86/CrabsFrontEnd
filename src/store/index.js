@@ -9,7 +9,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   plugins: [
     createPersistedState({
-      paths: ["allGamesData", "scorePlayer", "userRegisteredState"],
+      paths: ["allGamesData", "scorePlayer", "userRegisteredState","selectedGame","allShotsPlayer","user"],
     }),
   ],
   state: {
