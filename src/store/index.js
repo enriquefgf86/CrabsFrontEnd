@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import router from "../router";
 import createPersistedState from "vuex-persistedstate";
-const url = "https://nameless-cove-64564.herokuapp.com";
+const url = "https://mighty-brushlands-74467.herokuapp.com";
 
 Vue.use(Vuex);
 
