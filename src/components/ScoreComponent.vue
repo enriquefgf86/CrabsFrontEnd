@@ -16,25 +16,22 @@
         </v-card-title>
         <v-container>
           <v-data-table id="cardScoreTable" :headers="headers" :items="arrayOfScores">
-            <template v-slot:item="row">
+            <template v-slot:item="row" :scope="props">
               <tr>
                 <td>{{row.item.player}}</td>
                 <td>{{row.item.games_played}}</td>
-                <td>
-                  {{row.item.score}}
-                  <!-- <img v-if="imgStatus++==3" src="../assets/keepsOn.gif" width="30px" heigth="30px" />
-                        <img v-if="imgStatus++==1" src="../assets/emoji.gif" width="30px" heigth="30px" />
-                        <img v-if="imgStatus++==2" src="../assets/emoji.gif" width="30px" heigth="30px" />
-                        <img
-                          v-else-if="imgStatus++>=4"
-                          src="../assets/looserEmoji.gif"
-                          width="30px"
-                          heigth="30px"
-                  />-->
-                </td>
-                <td>
-                  <img v-show=" counter>3" :src="imgStatus[3]" alt="img" width="40px" heigth="40px" />
-                  <img v-show="counter<=3" :src="imgStatus[counter++]" alt="img" width="40px" heigth="40px" />
+                <td>{{row.item.score}}</td>
+                <td class="d-flex flex-row">
+                  <!-- <img v-if=" counter>3&& counter<=arrayOfScores.length" :src="imgStatus[3]" alt="img" width="40px" heigth="40px" />
+                  <img v-show="counter<=3&&counter<=arrayOfScores.length" :src="imgStatus[counter++]" alt="img" width="40px" heigth="40px" />-->
+                  <img
+                    id="imgPoll"
+                    :src="imgStatus[row.index<3?row.index:3]"
+                    alt="img"
+                    width="40px"
+                    heigth="40px"
+                  />
+                  <h4 id="poll">{{Status[row.index< 3 ? row.index:3]}}</h4>
                 </td>
               </tr>
             </template>
@@ -61,6 +58,7 @@ export default {
         require("../assets/bronzeEmoji.gif"),
         require("../assets/looserEmoji.gif"),
       ],
+      Status: ["First", "Second", "Third", "Looser"],
     };
   },
   methods: {
@@ -157,7 +155,7 @@ export default {
         { text: "Player" },
         { text: "Games" },
         { text: "Score" },
-        { text: "algo" },
+        { text: "Poll" },
       ];
     },
   },
@@ -166,6 +164,7 @@ export default {
     this.allGames;
     this.getShotScoreGames;
     this.tableScore;
+    // console.log(this.arrayOfScores);
     // console.log(this.getGames());
     // console.log(this.getShotScoreGames);
     // console.log(this.state);
@@ -195,5 +194,10 @@ export default {
 #backImg {
   width: 30px;
   height: 30px;
+}
+#imgPoll {
+}
+#poll {
+  margin-top: 1.2rem;
 }
 </style>
